@@ -1,54 +1,58 @@
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+ 
 
-	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-		// root node
-		WebPage rootPage = new WebPage("http://soslab.nccu.edu.tw/Welcome.html", "Soslab");
-		WebTree tree = new WebTree(rootPage);
-		// build childnode
-		tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Publications.html", "Publication")));
-		tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Projects.html", "Projects")));
-		tree.root.children.get(1).addChild(new WebNode(new WebPage("https://vlab.cs.ucsb.edu/stranger/", "Stranger")));
-		tree.root.addChild(new WebNode(new WebPage("http://soslab.nccu.edu.tw/Members.html", "MEMBER")));
-		tree.root.addChild(new WebNode(new WebPage("http://www3.nccu.edu.tw/~yuf/course.htm", "Course")));
-
-		ArrayList<Keyword> keywords = new ArrayList<Keyword>();
-		Keyword a1 = new Keyword("¥V¤Ñ", 2);
-		Keyword a2 = new Keyword("·Å¬u", 5);
-		Keyword a3 = new Keyword("¶º©±", 4);
-		Keyword a4 = new Keyword("¥xÆW", 4);
-		Keyword a5 = new Keyword("¬ü´º", 2);
-		Keyword a6 = new Keyword("«×°²§ø", 4);
-		Keyword a7 = new Keyword("SPA", 3);
-		Keyword a8 = new Keyword("´ö«Î", 4);
-		Keyword a9 = new Keyword("ªd¼ß·Å¬u", 4.5);
-		Keyword a10 = new Keyword("¤ôÀø", 3);
-		Keyword a11 = new Keyword("ªw´ö", 5);
-		keywords.add(a1);
-		keywords.add(a2);
-		keywords.add(a3);
-		keywords.add(a4);
-		keywords.add(a5);
-		keywords.add(a6);
-		keywords.add(a7);
-		keywords.add(a8);
-		keywords.add(a9);
-		keywords.add(a10);
-		keywords.add(a11);
-
-		tree.setPostOrderScore(keywords);
-		tree.eularPrintTree();
-	}
-
+ public static void main(String[] args) throws IOException {
+  // TODO Auto-generated method stub
+  //root node
+  WebPage rootPage = new WebPage("https://www.funtime.com.tw/blog/funtime/top-10-hotspring-in-taiwan", "Funtime");  
+  WebTree tree = new WebTree(rootPage);
+  //build childnode
+  tree.root.addChild(new WebNode(new WebPage("https://www.funtime.com.tw/localtour/beitou","Beitou")));
+  tree.root.addChild(new WebNode(new WebPage("https://www.funtime.com.tw/domhotel/åŒ—æŠ•è¨‚æˆ¿-ä½å®¿-é£¯åº—-æ°‘å®¿-é…’åº—","hotel")));
+  //add below projects
+  tree.root.addChild(new WebNode(new WebPage("https://www.funtime.com.tw/blog/funtime/éš¨ä¾¿æ‹éƒ½å¥½çœ‹ï¼å°åŒ—é™½æ˜å±±ç§˜å¢ƒæ™¯é»top10", "yangming")));
+  tree.root.addChild(new WebNode(new WebPage("https://www.funtime.com.tw/blog/funtime/ulay-attractions-recommend","ulay")));
+  tree.root.children.get(3).addChild(new WebNode(new WebPage("https://www.funtime.com.tw/blog/funtime/wulai-spring", "wulaiHotel")));
+  //read keyword: 2 Yu 1.2 Fang 1.8 
+  ArrayList<Keyword> keywords = new ArrayList<Keyword>();
+  Keyword key1=new Keyword("å†¬å¤©",2);
+  Keyword key2=new Keyword("æº«æ³‰",5);
+  Keyword key3=new Keyword("é£¯åº—",4);
+  Keyword key4=new Keyword("å°ç£",4);
+  Keyword key5=new Keyword("ç¾æ™¯",2);
+  Keyword key6=new Keyword("åº¦å‡æ‘",2);
+  Keyword key7=new Keyword("SPA",4);
+  Keyword key8=new Keyword("æ¹¯å±‹",3);
+  Keyword key9=new Keyword("æ³¥æ¼¿æº«æ³‰",4);
+  Keyword key10=new Keyword("æ°´ç™‚",4.5);
+  Keyword key11=new Keyword("æ³¡æ¹¯",3);
+  keywords.add(key1);
+  keywords.add(key2);
+  keywords.add(key3);
+  keywords.add(key4);
+  keywords.add(key5);
+  keywords.add(key6);
+  keywords.add(key7);
+  keywords.add(key8);
+  keywords.add(key9);
+  keywords.add(key10);
+  keywords.add(key11);
+   /*for(int i =0;i<numOfKeywords;i++)
+   {
+    String name = scanner.next();//Yu
+    double weight = scanner.nextDouble();//1.2
+    Keyword k = new Keyword(name, weight);//store key
+    keywords.add(k);
+   }
+   */
+   
+   tree.setPostOrderScore(keywords);
+   tree.eularPrintTree();
+  }
+  
 }
-
-/*
- * 
- * Input: 2 Fang 0.5 Yu 0.6 Output: (Fang Yu,131.10000000000002
- * (Publication,110.5) (Project,12.1 (Stranger,0.0) ) (Biography,2.8 (Vlab,0.0)
- * ) (Course,2.3) )
- */
