@@ -40,7 +40,7 @@ public class GoogleQuery
 
 		this.searchKeyword = searchKeyword;
 
-		this.url = "http://www.google.com/search?q="+searchKeyword+"&oe=utf8&num=100";
+		this.url = "http://www.google.com/search?q="+searchKeyword+"&oe=utf8&num=25";
 
 	}
 
@@ -82,7 +82,7 @@ public class GoogleQuery
 	  ///System.out.println(doc.text());
 	  Elements lis = doc.select("div");
 	  ///System.out.println(lis);
-	  lis = lis.select(".kCrYT");//.kCrYT .yuRUbf class¦WºÙ ©w¸q¥Î¡­
+	  lis = lis.select(".kCrYT");//.kCrYT .yuRUbf classï¿½Wï¿½ï¿½ ï¿½wï¿½qï¿½Î¡ï¿½
 	  /// System.out.println(lis.size());
 	  for(Element li : lis)
 	  {
