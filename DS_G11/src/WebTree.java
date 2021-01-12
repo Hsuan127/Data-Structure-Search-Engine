@@ -24,7 +24,7 @@ public class WebTree {
     child.setNodeScore(keywords);
     
    }
-   //5.setNode score of startNode æ²’ï¿½?ï¿½å­© webnode è¨ˆï¿½?ï¿½ï¿½?ï¿½æ•¸
+   //5.setNode score of startNode æ²’å?å­© webnode è¨ˆç?—å?†æ•¸
    startNode.setNodeScore(keywords);
   }
   catch(IOException e)

@@ -23,50 +23,51 @@ public class Main {
   System.out.println("User input keyword:"+a);
   a=in.next();
   KeywordList keywords = new KeywordList();
-  keywords.add(new Keyword("冬天",2));
-  keywords.add(new Keyword("溫泉",5));
-  keywords.add(new Keyword("飯店",4));
-  keywords.add(new Keyword("台灣",4));
-  keywords.add(new Keyword("美景",2));
-  keywords.add(new Keyword("度假村",2));
-  keywords.add(new Keyword("SPA",4));
-  keywords.add(new Keyword("湯屋",3));
-  keywords.add(new Keyword("泥漿溫泉",4));
-  keywords.add(new Keyword("水療",4.5));
-  keywords.add(new Keyword("泡湯",3));
+  for(int i=0;i<keywords.getList().size();i++)
+  {
+   System.out.println(keywords.getList().get(i).toString());
+  }
   HashMap<String,String> test=new GoogleQuery(a).query();
-//  String subpages="";
+  ArrayList<WebNode> nodeList=new ArrayList<WebNode>();
   HashMap<String,String> subpages=new HashMap<String,String>();
-  ArrayList<WebTree> treeList=new ArrayList<WebTree>();
   try {
-  for(String key:test.keySet())
-     {
-   String map="";
-//   WebPage rootPage = new WebPage(test.get(key), key);
-//   WebTree tree = new WebTree(rootPage);
-   subpages=getSubpage(test.get(key));
-   if(subpages!=null)
+   for(String key:test.keySet())
    {
-    for(String key2:subpages.keySet())
-    { 
-//         System.out.println(("subpages of "+key+":"+key2+","+subpages.get(key2)));
-     map+="    ("+key2+","+subpages.get(key2)+")\n";
-//     tree.root.addChild(new WebNode(new WebPage(subpages.get(key2),key2)));  
-    }
-    System.out.println("subpages of "+key+":\n"+map);
-//    tree.setPostOrderScore(keywords);
-//    tree.eularPrintTree();
-//    System.out.println("subpages of "+key+":"+subpages);
-    //System.out.println(key + " : " + test.get(key));
-   }
+    String map="";
+    WebPage rootPage = new WebPage(test.get(key), key);
+    WebTree tree = new WebTree(rootPage);
+    subpages=getSubpage(test.get(key));
+    if(subpages!=null)
+    {
+     for(String key2:subpages.keySet())
+     { 
+      tree.root.addChild(new WebNode(new WebPage(subpages.get(key2),key2)));
+      map+="    ("+key2+","+subpages.get(key2)+")\n";     
      }
+//     System.out.println("subpages of "+key+":\n"+map);
+    }
+    tree.setPostOrderScore(keywords);
+    nodeList.add(tree.root);
+//    tree.eularPrintTree();
+   }
+   Ranking ranking=new Ranking(nodeList);
+   ranking.sort();
+   nodeList=ranking.getList();
+   for(int i=0;i<nodeList.size();i++)
+   {
+    System .out.println("( "+nodeList.get(i).webPage.name+" , "+nodeList.get(i).webPage.url+" , "+nodeList.get(i).nodeScore+" )");
+   }
+//   System.out.println(ranking.output());
   }
         catch (NullPointerException e)
         {
          e.printStackTrace();
         }
-
+  catch(IOException e)
+  {
+   e.printStackTrace();
   }
+ }
     public static HashMap<String,String> getSubpage(String url) throws IOException
     {
      try {
@@ -82,28 +83,19 @@ public class Main {
                &&!link.attr("abs:href").startsWith(url+"/#")&&!link.attr("abs:href").equals(url+"/")&&!link.attr("abs:href").endsWith("jpg"))//link.attr("title")!=null&&link.attr("abs:href").contains(url+"&")||link.attr("abs:href").contains(url+"/")
              {
               title=link.attr("title");
-//              if(title=="")
-//              {
-//               title="a";
-//               spLinks+="              ("+title+","+link.attr("abs:href")+")\n";
-//               subpages.put(title,link.attr("abs:href"));
-//              }
-              //System.out.println("("+title+","+link.attr("abs:href")+")");
-//              Document subpage=Jsoup.connect(link.attr("abs:href")).get();
-//              title=subpage.select("a").getElementsByTag("title").text();
-//              else
-//              {
-              
-              spLinks+="              ("+title+","+link.attr("abs:href")+")\n";
-              //subpages.put(title,link.attr("abs:href"));
               if(title=="")
               {
-               subpages.put(i+"",link.attr("abs:href"));
-               i++;
+               if(!link.text().isEmpty())
+               {
+                title=link.text();
+                subpages.put(title,link.attr("abs:href"));
+                spLinks+="              ("+title+","+link.attr("abs:href")+")\n";
+               }
               }
               else
               {
                subpages.put(title,link.attr("abs:href"));
+               spLinks+="              ("+title+","+link.attr("abs:href")+")\n";
               }
 //             }
             }
@@ -113,23 +105,6 @@ public class Main {
 //         return "IOException";
          return null;
         }
-//     return "no subpage";
     }
- private static String fetchContent(String url) throws IOException
- {
-  String retVal = "";
-  URL u = new URL(url);
-  URLConnection conn = u.openConnection();
-  conn.setRequestProperty("User-agent", "Chrome/7.0.517.44");
-  InputStream in = conn.getInputStream();
-  InputStreamReader inReader = new InputStreamReader(in,"utf-8");
-  BufferedReader bufReader = new BufferedReader(inReader);
-  String line = null;
-  while((line=bufReader.readLine())!=null)
-  {
-   retVal += line;
-  }
-  return retVal;
- }
   
 }
