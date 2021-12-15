@@ -5,7 +5,7 @@
 </p>
 <h1 align="left">Developed by java</h1>
 
-The project is built up by 10 classes:
+The project is built up by 10 classes and 2 jsp files:
 - GoogleQuery -- Get google search results
 - Keyword -- Set up Keyword’s Type
 - KeywordList -- Add Keywords to List and Find LCS
@@ -15,3 +15,5 @@ The project is built up by 10 classes:
 - WebPage -- a Web Page
 - WebTree -- Link WebNodes With a Tree
 - WebCounter -- Calculate Scores by Keywords
+- googleitem.jsp
+- Search.jsp
